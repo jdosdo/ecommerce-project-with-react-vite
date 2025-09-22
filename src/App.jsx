@@ -26,7 +26,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        THIS CHANGED BEFORE PUSHING TO BRANCH
+        CHANGED PART TO TEST BRANCHING
       </p>
     </>
   )
