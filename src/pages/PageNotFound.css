@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
+
+.notfound-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.notfound-404 {
+  font-family: Share Tech, Arial;
+  font-size: 7rem;
+}
+
+.notfound-sorry {
+  margin-top: 10px;
+  font-family: Roboto, Arial;
+  font-size: 1.2rem;
+  color: rgb(121, 121, 121)
+}
