@@ -1,41 +1,71 @@
+import axios from "axios";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { Header } from "../components/Header";
 import { Link } from "react-router";
 import "./Tracking.css";
 
-export function Tracking() {
+export function Tracking({ cart }) {
+  const { orderId, productId } = useParams();
+
+  const [order, setOrder] = useState(null);
+
+  useEffect(() => {
+    const fetchTrackingData = async () => {
+      const response = await axios.get(
+        `/api/orders/${orderId}?expand=products`
+      );
+      setOrder(response.data);
+    };
+    fetchTrackingData();
+  }, [orderId]);
+
+  if (!order) {
+    return null;
+  }
+
+  const item = order.products.find(
+    (product) => product.productId === productId
+  );
+
+  console.log(item);
+
   return (
     <>
       <title>Tracking</title>
 
-      <Header />
+      <Header cart={cart} />
 
-      <div class="tracking-page">
-        <div class="order-tracking">
-          <Link class="back-to-orders-link link-primary" to="/orders">
+      <div className="tracking-page">
+        <div className="order-tracking">
+          <Link className="back-to-orders-link link-primary" to="/orders">
             View all orders
           </Link>
 
-          <div class="delivery-date">Arriving on Monday, June 13</div>
-
-          <div class="product-info">
-            Black and Gray Athletic Cotton Socks - 6 Pairs
+          <div className="delivery-date">
+            Arriving on {dayjs(order.orderTimeMs).format("dddd, D MMMM")}
           </div>
 
-          <div class="product-info">Quantity: 1</div>
+          <div className="product-info">
+            {item.product.name}
+          </div>
+
+          <div className="product-info">Quantity: {item.quantity}</div>
 
           <img
-            class="product-image"
-            src="images/products/athletic-cotton-socks-6-pairs.jpg"
+            className="product-image"
+            src={`${item.product.image}`}
           />
 
-          <div class="progress-labels-container">
-            <div class="progress-label">Preparing</div>
-            <div class="progress-label current-status">Shipped</div>
-            <div class="progress-label">Delivered</div>
+          <div className="progress-labels-container">
+            <div className="progress-label">Preparing</div>
+            <div className="progress-label current-status">Shipped</div>
+            <div className="progress-label">Delivered</div>
           </div>
 
-          <div class="progress-bar-container">
-            <div class="progress-bar"></div>
+          <div className="progress-bar-container">
+            <div className="progress-bar"></div>
           </div>
         </div>
       </div>
