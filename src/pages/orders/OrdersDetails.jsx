@@ -4,10 +4,10 @@ import { Fragment } from "react";
 import buyAgain from "../../assets/images/icons/buy-again.png";
 
 export function OrdersDetails({ order }) {
+  console.log(order)
   return (
     <div className="order-details-grid">
       {order.products.map((orderProduct) => {
-        {console.log(order)}
         return (
           <Fragment key={orderProduct.product.id}>
             <div className="product-image-container">
