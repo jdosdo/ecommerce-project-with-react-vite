@@ -4,7 +4,6 @@ import { Fragment } from "react";
 import buyAgain from "../../assets/images/icons/buy-again.png";
 
 export function OrdersDetails({ order }) {
-  console.log(order)
   return (
     <div className="order-details-grid">
       {order.products.map((orderProduct) => {
