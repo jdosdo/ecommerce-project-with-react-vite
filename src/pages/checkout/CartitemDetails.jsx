@@ -6,6 +6,15 @@ export function CartItemDetails({ cartItem, loadCart }) {
   const [isUpdatingQuantity, setIsUpdatingQuantity] = useState(false);
   const [quantity, setQuantity] = useState(cartItem.quantity);
 
+  function handleQuantityKeyDown(event) {
+    if (event.key === "Enter") {
+      updateQuantity();
+    } else if (event.key === "Escape") {
+      setQuantity(cartItem.quantity);
+      setIsUpdatingQuantity(false);
+    }
+  }
+
   const updateQuantity = async () => {
     if (isUpdatingQuantity) {
       await axios.put(`/api/cart-items/${cartItem.productId}`, {
@@ -43,15 +52,7 @@ export function CartItemDetails({ cartItem, loadCart }) {
                   setQuantity(event.target.value);
                   console.log(quantity);
                 }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    updateQuantity();
-                  }
-                  else if (event.key === "Escape") {
-                    setQuantity(cartItem.quantity)
-                    setIsUpdatingQuantity(false)
-                  };
-                }}
+                onKeyDown={handleQuantityKeyDown}
               />
             ) : (
               <span className="quantity-label">{cartItem.quantity}</span>
