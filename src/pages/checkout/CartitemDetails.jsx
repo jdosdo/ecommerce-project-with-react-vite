@@ -27,6 +27,10 @@ export function CartItemDetails({ cartItem, loadCart }) {
     }
   };
 
+  const updateQuantityInput = (event) => {
+    setQuantity(event.target.value)
+  }
+
   const deleteCartItem = async () => {
     await axios.delete(`/api/cart-items/${cartItem.productId}`);
     await loadCart();
@@ -48,10 +52,7 @@ export function CartItemDetails({ cartItem, loadCart }) {
                 type="number"
                 className="quantity-box"
                 value={quantity}
-                onChange={(event) => {
-                  setQuantity(event.target.value);
-                  console.log(quantity);
-                }}
+                onChange={updateQuantityInput}
                 onKeyDown={handleQuantityKeyDown}
               />
             ) : (
