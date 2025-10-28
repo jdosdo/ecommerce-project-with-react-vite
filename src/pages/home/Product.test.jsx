@@ -7,7 +7,7 @@ import { Product } from "./Product";
 vi.mock("axios");
 
 describe("Product component", () => {
-  let product, loadCart;
+  let product, loadCart, user;
 
   // Called Test Hook. beforeEach basically run a code on beforeEach before every test
   beforeEach(() => {
@@ -24,6 +24,7 @@ describe("Product component", () => {
     };
 
     loadCart = vi.fn();
+    user = userEvent.setup();
   });
 
   it("displays the product details correctly", () => {
@@ -50,7 +51,6 @@ describe("Product component", () => {
   it("adds a product to the cart", async () => {
     render(<Product product={product} loadCart={loadCart} />);
 
-    const user = userEvent.setup();
     const addToCartButton = screen.getByTestId("add-to-cart-button");
     await user.click(addToCartButton);
 
@@ -61,11 +61,22 @@ describe("Product component", () => {
     expect(loadCart).toHaveBeenCalled;
   });
 
-  it("can select quantity", () => {
-    render(<Product product={product} loadCart={loadCart}/>);
+  it("can select quantity", async () => {
+    render(<Product product={product} loadCart={loadCart} />);
 
     const quantitySelector = screen.getByTestId("product-quantity-container");
+    expect(quantitySelector).toHaveValue("1");
 
-    expect(quantitySelector).toHaveValue("1")
-  })
+    await user.selectOptions(quantitySelector, "3");
+    expect(quantitySelector).toHaveValue("3");
+
+    const addToCartButton = screen.getByTestId("add-to-cart-button");
+    await user.click(addToCartButton);
+    expect(axios.post).toHaveBeenCalledWith("/api/cart-items", {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 3,
+    });
+
+    expect(loadCart).toHaveBeenCalled;
+  });
 });
