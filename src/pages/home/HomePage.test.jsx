@@ -1,16 +1,18 @@
+import axios from "axios";
+import userEvent from "@testing-library/user-event";
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router" ;
-import axios from "axios";
+import { MemoryRouter } from "react-router";
 import { HomePage } from "./HomePage";
 
 vi.mock("axios");
 
 describe("HomePage Component", () => {
-  let loadCart;
+  let loadCart, user;
 
   beforeEach(() => {
     loadCart = vi.fn();
+    user = userEvent.setup();
 
     axios.get.mockImplementation(async (urlPath) => {
       if (urlPath === "/api/products") {
@@ -60,10 +62,48 @@ describe("HomePage Component", () => {
       )
     ).toBeInTheDocument();
 
-     expect(
-      within(productContainers[1]).getByText(
-        "Intermediate Size Basketball"
-      )
+    expect(
+      within(productContainers[1]).getByText("Intermediate Size Basketball")
     ).toBeInTheDocument();
+  });
+
+  it("adds the product into cart", async () => {
+    render(
+      <MemoryRouter>
+        <HomePage cart={[]} loadCart={loadCart} />
+      </MemoryRouter>
+    );
+
+    const productContainers = await screen.findAllByTestId("product-container");
+
+    const product1QuantitySelector = within(productContainers[0]).getByTestId(
+      "product-quantity-container"
+    );
+    await user.selectOptions(product1QuantitySelector, "2");
+
+    const product1Button = within(productContainers[0]).getByTestId(
+      "add-to-cart-button"
+    );
+    await user.click(product1Button);
+    const product2QuantitySelector = within(productContainers[1]).getByTestId(
+      "product-quantity-container"
+    );
+    await user.selectOptions(product2QuantitySelector, "3");
+
+    const product2Button = within(productContainers[1]).getByTestId(
+      "add-to-cart-button"
+    );
+    await user.click(product2Button);
+
+    expect(axios.post).toHaveBeenNthCalledWith(1, "/api/cart-items", {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+    });
+    expect(axios.post).toHaveBeenNthCalledWith(2, "/api/cart-items", {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 3,
+    });
+
+    expect(loadCart).toHaveBeenCalledTimes(2);
   });
 });
