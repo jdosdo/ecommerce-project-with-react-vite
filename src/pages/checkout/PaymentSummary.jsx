@@ -69,6 +69,7 @@ export function PaymentSummary({ paymentSummary, loadCart }) {
 
           <button
             className="place-order-button button-primary"
+            data-testid="create-order-button"
             onClick={createOrder}
           >
             Place your order
