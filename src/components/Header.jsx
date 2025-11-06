@@ -32,31 +32,32 @@ export function Header({ cart }) {
       <div className="header">
         <div className="left-section">
           <NavLink to="/" className="header-link">
-            <img className="logo" src={logoWhite} />
-            <img className="mobile-logo" src={mobileLogoWhite} />
+            <img className="logo" alt="App Logo" src={logoWhite} />
+            <img className="mobile-logo" alt="App Logo Mobile" src={mobileLogoWhite} />
           </NavLink>
         </div>
 
-        <div className="middle-section">
+        <div className="middle-section" data-testid="middle-section">
           <input
             className="search-bar"
             type="text"
             placeholder="Search"
+            data-testid="search-bar"
             onChange={updateSearchInput}
           />
 
-          <button className="search-button" onClick={searchProducts}>
-            <img className="search-icon" src={searchIcon} />
+          <button className="search-button" data-testid="search-button" onClick={searchProducts}>
+            <img className="search-icon" alt="search icon" src={searchIcon} />
           </button>
         </div>
 
-        <div className="right-section">
+        <div className="right-section" data-testid="right-section">
           <NavLink className="orders-link header-link" to="/orders">
             <span className="orders-text">Orders</span>
           </NavLink>
 
-          <NavLink className="cart-link header-link" to="/checkout">
-            <img className="cart-icon" src={cartIcon} />
+          <NavLink className="cart-link header-link" data-testid="header-cart" to="/checkout">
+            <img className="cart-icon" alt="cart icon" src={cartIcon} />
             <div className="cart-quantity">{totalQuantity}</div>
             <div className="cart-text">Cart</div>
           </NavLink>
