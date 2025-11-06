@@ -31,7 +31,7 @@ export function Header({ cart }) {
     <>
       <div className="header">
         <div className="left-section">
-          <NavLink to="/" className="header-link">
+          <NavLink to="/" className="header-link" data-testid="homepage-link">
             <img className="logo" alt="App Logo" src={logoWhite} />
             <img className="mobile-logo" alt="App Logo Mobile" src={mobileLogoWhite} />
           </NavLink>
@@ -52,7 +52,7 @@ export function Header({ cart }) {
         </div>
 
         <div className="right-section" data-testid="right-section">
-          <NavLink className="orders-link header-link" to="/orders">
+          <NavLink className="orders-link header-link" data-testid="orders-link" to="/orders">
             <span className="orders-text">Orders</span>
           </NavLink>
 

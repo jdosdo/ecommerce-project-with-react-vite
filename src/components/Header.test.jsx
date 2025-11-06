@@ -1,13 +1,22 @@
 import { it, describe, beforeEach, expect } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { Header } from "./Header";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, useLocation } from "react-router";
+import userEvent from "@testing-library/user-event";
+
+function Location() {
+  const location = useLocation();
+  return (
+    <div data-testid="url-path">{location.pathname + location.search}</div>
+  );
+}
 
 describe("Header component", () => {
-  let cart;
+  let cart, user;
   let totalQuantity = 0;
 
   beforeEach(() => {
+    user = userEvent.setup();
     cart = [
       {
         productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -28,6 +37,7 @@ describe("Header component", () => {
     render(
       <MemoryRouter>
         <Header cart={cart} />
+        <Location />
       </MemoryRouter>
     );
   });
@@ -67,7 +77,45 @@ describe("Header component", () => {
     expect(within(headerCart).getByText(totalQuantity)).toBeInTheDocument();
   });
 
-  it("links to the intended page correctly", () => {
-    
-  })
+  it("links to the HomePage", async () => {
+    const homepageLink = screen.getByTestId("homepage-link");
+
+    await user.click(homepageLink);
+
+    expect(screen.getByTestId("url-path")).toHaveTextContent("/");
+  });
+
+  it("can search based on user input", async () => {
+    // get user input
+    const searchInput = screen.getByTestId("search-bar");
+
+    await user.type(searchInput, "smartphone");
+
+    expect(searchInput).toHaveValue("smartphone");
+
+    // search based on user input when the button is clicked
+    const searchButton = screen.getByTestId("search-button");
+
+    await user.click(searchButton);
+
+    expect(screen.getByTestId("url-path")).toHaveTextContent(
+      "/?search=smartphone"
+    );
+  });
+
+  it("links to the Orders page", async () => {
+    const ordersPageLink = screen.getByTestId("orders-link");
+
+    await user.click(ordersPageLink);
+
+    expect(screen.getByTestId("url-path")).toHaveTextContent("/orders");
+  });
+
+  it("links to the checkout page", async () => {
+    const checkoutPageLink = screen.getByTestId("header-cart");
+
+    await user.click(checkoutPageLink);
+
+    expect(screen.getByTestId("url-path")).toHaveTextContent("/checkout");
+  });
 });
