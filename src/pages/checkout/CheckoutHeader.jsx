@@ -13,24 +13,24 @@ export function CheckoutHeader({cart}) {
   return (
     <>
       <div className="checkout-header">
-        <div className="header-content">
-          <div className="checkout-header-left-section">
+        <div className="header-content" data-testid="header-content">
+          <div className="checkout-header-left-section" data-testid="checkout-header-app-logo">
             <Link to="/">
-              <img className="logo" src={logo} />
-              <img className="mobile-logo" src={mobileLogo} />
+              <img className="logo" alt="App Logo" src={logo} />
+              <img className="mobile-logo" alt="App Logo Mobile" src={mobileLogo} />
             </Link>
           </div>
 
-          <div className="checkout-header-middle-section">
+          <div className="checkout-header-middle-section" data-testid="checkout-header-total-items">
             Checkout (
-            <a className="return-to-home-link" href="/">
+            <Link to="/" className="return-to-home-link">
               {totalQuantity} items
-            </a>
+            </Link>
             )
           </div>
 
-          <div className="checkout-header-right-section">
-            <img src={checkoutLockIcon} />
+          <div className="checkout-header-right-section" data-testid="checkout-header-icon">
+            <img alt="checkout-header-icon" src={checkoutLockIcon} />
           </div>
         </div>
       </div>
