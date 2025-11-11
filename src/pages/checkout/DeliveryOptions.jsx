@@ -34,12 +34,12 @@ export function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
               name={`delivery-option-${cartItem.productId}`}
             />
             <div>
-              <div className="delivery-option-date">
+              <div className="delivery-option-date" data-testid={`delivery-option-date-${deliveryOption.id}-${cartItem.productId}`}>
                 {dayjs(deliveryOption.estimatedDeliveryTimeMs).format(
                   "dddd, MMMM D"
                 )}
               </div>
-              <div className="delivery-option-price">{priceString}</div>
+              <div className="delivery-option-price" data-testid={`delivery-option-price-${deliveryOption.id}-${cartItem.productId}`}>{priceString}</div>
             </div>
           </div>
         );
