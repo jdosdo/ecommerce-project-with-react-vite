@@ -47,6 +47,57 @@ describe("Delivery options", () => {
   });
 
   it("shows the correct text", () => {
+    /*
+    // For Delivery Option 1
+    expect(
+      screen.getByTestId(
+        `delivery-option-date-${deliveryOptions[0].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent(
+      dayjs(deliveryOptions[0].estimatedDeliveryTimeMs).format("dddd, MMMM D")
+    );
+
+    expect(
+      screen.getByTestId(
+        `delivery-option-price-${deliveryOptions[0].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent("FREE SHIPPING");
+
+    // For Delivery Option 2
+    expect(
+      screen.getByTestId(
+        `delivery-option-date-${deliveryOptions[1].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent(
+      dayjs(deliveryOptions[1].estimatedDeliveryTimeMs).format("dddd, MMMM D")
+    );
+
+    expect(
+      screen.getByTestId(
+        `delivery-option-price-${deliveryOptions[1].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent(
+      `${formatMoney(deliveryOptions[1].priceCents)} - Shipping`
+    );
+
+    // For Delivery Option 2
+    expect(
+      screen.getByTestId(
+        `delivery-option-date-${deliveryOptions[2].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent(
+      dayjs(deliveryOptions[2].estimatedDeliveryTimeMs).format("dddd, MMMM D")
+    );
+
+    expect(
+      screen.getByTestId(
+        `delivery-option-price-${deliveryOptions[2].id}-${cartItem.productId}`
+      )
+    ).toHaveTextContent(
+      `${formatMoney(deliveryOptions[2].priceCents)} - Shipping`
+    );
+    */
+
     deliveryOptions.forEach((deliveryOption) => {
       let priceString = "FREE SHIPPING";
 
@@ -56,17 +107,17 @@ describe("Delivery options", () => {
 
       expect(
         screen.getByTestId(
-          `delivery-option-price-${deliveryOption.id}-${cartItem.productId}`
-        )
-      ).toHaveTextContent(priceString);
-
-      expect(
-        screen.getByTestId(
           `delivery-option-date-${deliveryOption.id}-${cartItem.productId}`
         )
       ).toHaveTextContent(
         dayjs(deliveryOption.estimatedDeliveryTimeMs).format("dddd, MMMM D")
       );
+
+      expect(
+        screen.getByTestId(
+          `delivery-option-price-${deliveryOption.id}-${cartItem.productId}`
+        )
+      ).toHaveTextContent(priceString);
     });
   });
 });
